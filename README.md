@@ -6,7 +6,7 @@ R implementation of the algorithm introduced in "Fast and Optimal Inference for 
 
 A small example with the `blocks` signal. 
 
-```{r}
+```r
 
 library("nsp")
 
