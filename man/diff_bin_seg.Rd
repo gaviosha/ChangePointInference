@@ -4,7 +4,21 @@
 \alias{diff_bin_seg}
 \title{diffInf binary segmentation}
 \usage{
-diff_bin_seg(xx_cumsum, ss, ee, degree, aa, min_width, thresh, scaling)
+diff_bin_seg(
+  xx_cumsum,
+  ss,
+  ee,
+  degree,
+  aa,
+  min_scale,
+  thresh,
+  scaling,
+  tau,
+  tacv_max_scale,
+  noise_level_know,
+  noise_type,
+  dependent_noise
+)
 }
 \arguments{
 \item{xx_cumsum}{cumulative sum of data}
@@ -17,11 +31,21 @@ diff_bin_seg(xx_cumsum, ss, ee, degree, aa, min_width, thresh, scaling)
 
 \item{aa}{controls grid density (a in the paper)}
 
-\item{min_width}{minimum width of intervals tested for a change}
+\item{min_scale}{minimum width of intervals tested for a change}
 
 \item{thresh}{threshold to control FWE computed by \code{diffInf}}
 
 \item{scaling}{numeric calling constant in local tests pre-computed by \code{diffInf}}
+
+\item{tau}{noise level, either supplied by the user or estimated}
+
+\item{tacv_max_scale}{coarsest scale on which TAVC will be calculated, all coarser scales will use TAVC calculated on this scale}
+
+\item{noise_level_know}{TRUE if the noise level is supplied by the user and FALSE else}
+
+\item{noise_type}{one of "gaussian" or "non_gaussian_dependent"}
+
+\item{dependent_noise}{whether the noise is serially dependent}
 }
 \description{
 Recursively search for narrowest interval containing an change point over a particular logarithmic grid using binary segmentation algorithm; not not be called directly by the user.

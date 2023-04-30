@@ -49,15 +49,13 @@ diff_bin_seg <- function(xx_cumsum, ss, ee, degree, aa, min_scale, thresh, scali
   
   for (jj in 1:floor(logb(nn_loc,aa)))
   {
-    ww <- (degree+2) * floor((aa**jj)/(degree+2))
-    
-    if (!noise_level_know && dependent_noise)
-    {
-      tau <- ifelse(ww > tacv_max_scale, tau, generalised_tavc_est(xx_cumsum, ww, degree, scaling, tacv_max_scale))
-    }
+    ww <- (degree+2) * max(floor((aa**jj)/(degree+2)),1)
     
     if ((ww > min_scale) & (ww < nn_loc)) 
     {
+
+      if (!noise_level_know && dependent_noise) tau <- ifelse(ww > tacv_max_scale, tau, generalised_tavc_est(xx_cumsum, ww, degree, scaling, tacv_max_scale))
+
       for (ll in ss:(ee-ww))
       {
         

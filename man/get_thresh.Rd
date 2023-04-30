@@ -4,19 +4,23 @@
 \alias{get_thresh}
 \title{Get threshold}
 \usage{
-get_thresh(nn, alpha, degree, aa, LL, HH)
+get_thresh(nn, WW, alpha, degree, aa, HH, noise_type)
 }
 \arguments{
 \item{nn}{length of the data sequence}
+
+\item{WW}{minimum segment length}
+
+\item{alpha}{desired coverage}
 
 \item{degree}{polynomial degree of the underlying signal}
 
 \item{aa}{controls grid density (a in the paper)}
 
-\item{LL}{control smallest scale (L in the paper)}
-
 \item{HH}{numeric constant}
+
+\item{noise_type}{one of "gaussian" or "non_gaussian_dependent"}
 }
 \description{
-Calculate threshold for FWE controll
+Calculate threshold for FWE control
 }

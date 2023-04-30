@@ -18,9 +18,7 @@ generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale)
   
   if (ww > tacv_max_scale) ww <- tacv_max_scale
   
-  ww <- (degree+2) * floor(ww/(degree+2))
-  
-  print(c(1,nn,ww))
+  if (!(ww %% (degree+2) == 0)) ww <- (degree+2) * floor(ww/(degree+2))
   
   zz <- sapply(seq(1,nn,ww), function(ll) loc_diff(xx_cumsum, ll, ww, degree) / sqrt(ww*scaling)) ** 2
   

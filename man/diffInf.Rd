@@ -4,7 +4,19 @@
 \alias{diffInf}
 \title{Change point inference via differencing}
 \usage{
-diffInf(xx, degree, alpha, sigma = NULL, aa = 2, LL = 0, HH = NULL)
+diffInf(
+  xx,
+  degree,
+  alpha,
+  noise_type = c("gaussian", "non_gaussian_dependent")[1],
+  dependent_noise = FALSE,
+  tau = NULL,
+  aa = sqrt(2),
+  min_scale = log(length(xx)),
+  HH = NULL,
+  WW = NULL,
+  tacv_max_scale = NULL
+)
 }
 \arguments{
 \item{xx}{signal to be segmented}
@@ -13,13 +25,21 @@ diffInf(xx, degree, alpha, sigma = NULL, aa = 2, LL = 0, HH = NULL)
 
 \item{alpha}{desired coverage}
 
-\item{sigma}{noise level if know, if null sigma will be estimated using}
+\item{noise_type}{one of "gaussian" or "non_gaussian_dependent"}
+
+\item{dependent_noise}{whether the noise is serially dependent}
+
+\item{tau}{noise level if know, if null the noise level will be estimated via MAD if the noise in independent and via TACV estimator if the noise is dependent}
 
 \item{aa}{controls grid density (a in the paper)}
 
-\item{LL}{control smallest scale (L in the paper)}
+\item{min_scale}{minimum width of intervals tested for a change}
 
 \item{HH}{supply numeric constant H if pre-computed}
+
+\item{WW}{minimum segment length in the case of non-gaussian or dependent noises (W in the paper)}
+
+\item{tacv_max_scale}{coarsest scale on which TAVC will be calculated, all coarser scales will use TAVC calculated on this scale}
 }
 \description{
 Main routine
