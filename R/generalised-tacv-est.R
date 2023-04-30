@@ -1,0 +1,81 @@
+
+generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale)
+{
+  #' Robust estimation of TAVC with unknown piecewise polynomial signal
+  #'
+  #'@param xx_cumus, cumulative sum of the data 
+  #'@param ww, scale at which TVAC will be calculated  
+  #'@param degree polynomial degree of the underlying signal
+  #'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
+  #'@param tacv_max_scale, maximum scale at which to calculate TVAC
+  #'
+  #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
+  #'@references https://github.com/EuanMcGonigle/TAVC.seg
+  #'
+  #'@export
+  
+  nn <- length(xx_cumsum) - 1
+  
+  if (ww > tacv_max_scale) ww <- tacv_max_scale
+  
+  ww <- (degree+2) * floor(ww/(degree+2))
+  
+  print(c(1,nn,ww))
+  
+  zz <- sapply(seq(1,nn,ww), function(ll) loc_diff(xx_cumsum, ll, ww, degree) / sqrt(ww*scaling)) ** 2
+  
+  zz <- na.omit(zz)
+  
+  qq_est <- sqrt(ww/nn) / (2.125365 * median(zz))
+  
+  tavc_uniroot <- try(uniroot(catoni_sum, xx = zz, qq = qq_est, interval = c(-10,max(zz))), silent = TRUE)
+  
+  if(class(tavc_uniroot) == "try-error")
+    {
+      tavc_est <- NA
+    } else {
+      tavc_est = tavc_uniroot$root
+    }
+  
+  return(sqrt(tavc_est))
+}
+
+
+catoni_influence_fun <- function(xx)
+{
+  #' Influence function from Catoni (2012)
+  #'
+  #'@param xx data vector
+  #'
+  #'@references Catoni, Olivier. "Challenging the empirical mean and empirical variance: a deviation study." Annales de l'IHP Probabilités et statistiques. Vol. 48. No. 4. 2012.
+  #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
+  #'@references https://github.com/EuanMcGonigle/TAVC.seg
+  #'
+  #'@export
+  
+  if (xx >= 1) return(log(2))
+  
+  if ((xx >= 0) && (xx < 1)) return(-log(1-xx+xx^2/2))
+  
+  if ((xx <= 0) && (xx > -1)) return(log(1+xx+xx^2/2))
+  
+  return(-log(2))
+}
+
+catoni_sum <- function(tau,xx,qq)
+{
+  #' Funtion to be optimised to obtain an estimate for \tau
+  #'
+  #'@param tau, parameter
+  #'@param xx, data vector
+  #'@param qq, scaling
+  #'
+  #'@references Catoni, Olivier. "Challenging the empirical mean and empirical variance: a deviation study." Annales de l'IHP Probabilités et statistiques. Vol. 48. No. 4. 2012.
+  #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
+  #'@references https://github.com/EuanMcGonigle/TAVC.seg
+  
+  out <-sapply(xx, function(ii) (1/qq) * catoni_influence_fun(qq*(ii-tau)))
+  
+  return(sum(out) / length(out))
+}
+

@@ -15,15 +15,14 @@ p_inf_sqrd <- function(xx)
 }
 
 
-H_num_est <- function(degree, aa, LL)
+H_num_est_gauss <- function(degree, aa)
 {
-  #' H-num-est
+  #' Estimate the numeric constant H under Gaussian noise
   #'
   #' Numeric estimate of the constant H_2 in the paper
   #'
   #'@param degree polynomial degree of the underlying signal
   #'@param aa controls grid density (a in the paper)
-  #'@param LL control smallest scale (L in the paper)
   #'
   #'@export
   
@@ -34,31 +33,65 @@ H_num_est <- function(degree, aa, LL)
   C_xi_p <- (degree+2)*(1+(c1/c2))
   
   
-  up_seq <- sapply(-LL:100, function(jj) p_inf_sqrd((2*1*C_xi_p)/(aa**jj)))
+  up_seq <- sapply(0:100, function(jj) p_inf_sqrd((2*1*C_xi_p)/(aa**jj)))
   
   return(sum(up_seq))
 }
 
-get_thresh <- function(nn, alpha, degree, aa, LL, HH)
+
+H_nongauss <- function(degree, aa)
+{
+  #' Get the numeric constant H under non-Gaussian and / or dependent noise
+  #' 
+  #' Calculates the constant H_4 in the paper
+  #'
+  #'@param degree polynomial degree of the underlying signal
+  #'@param aa controls grid density (a in the paper)
+  #'
+  #'@export
+  
+  c1 <- sum(choose(degree+1,1:(degree+1))*choose(degree+1,0:degree))
+  
+  c2 <- sum(choose(degree+1,0:(degree+1))**2)
+  
+  C_xi_p <- (degree+2)*(1+(c1/c2))
+  
+  return(C_xi_p / (1-(1/aa)))
+}
+
+get_thresh <- function(nn, WW, alpha, degree, aa, HH, noise_type)
 {
   #' Get threshold
   #'
-  #' Calculate threshold for FWE controll 
+  #' Calculate threshold for FWE control 
   #'
   #'@param nn length of the data sequence
+  #'@param WW minimum segment length
+  #'@param alpha desired coverage 
   #'@param degree polynomial degree of the underlying signal
   #'@param aa controls grid density (a in the paper)
-  #'@param LL control smallest scale (L in the paper)
   #'@param HH numeric constant 
+  #'@param noise_type one of "gaussian" or "non_gaussian_dependent"
   #'
   #'@export 
   
-  HH <- ifelse(is.null(HH), H_num_est(degree, aa, LL), HH)
-  
-  a_n <- sqrt(2*log(nn)) + (-0.5*log(log(nn)) - log(2*sqrt(pi)) + log(HH)) / sqrt(2*log(nn))
-  
-  b_n <- 1/sqrt(2*log(nn))
-  
+  if (noise_type == "gaussian")
+  {
+    HH <- ifelse(is.null(HH), H_num_est_gauss(degree, aa), HH)
+    
+    a_n <- sqrt(2*log(nn)) + (-0.5*log(log(nn)) - log(2*sqrt(pi)) + log(HH)) / sqrt(2*log(nn))
+    
+    b_n <- 1/sqrt(2*log(nn))
+    
+  } else if (noise_type == "non_gaussian_dependent") {
+    
+    HH <- ifelse(is.null(HH), H_nongauss(degree, aa), HH)
+    
+    a_n <- sqrt(2*log(nn/WW)) + (0.5*log(log(nn/WW)) - log(sqrt(pi)) + log(HH)) / sqrt(2*log(nn/WW))
+    
+    b_n <- 1/sqrt(2*log(nn/WW))
+  }
+    
   tau <- log(1/log(1/sqrt(1-alpha)))
   
   return(a_n + tau * b_n)
