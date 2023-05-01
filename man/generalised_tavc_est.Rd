@@ -4,7 +4,14 @@
 \alias{generalised_tavc_est}
 \title{Robust estimation of TAVC with unknown piecewise polynomial signal}
 \usage{
-generalised_tavc_est(xx_cumsum, ww, degree, scaling, tacv_max_scale)
+generalised_tavc_est(
+  xx_cumsum,
+  ww,
+  degree,
+  scaling,
+  tacv_max_scale = NULL,
+  b_max = NULL
+)
 }
 \arguments{
 \item{ww, }{scale at which TVAC will be calculated}
@@ -14,6 +21,8 @@ generalised_tavc_est(xx_cumsum, ww, degree, scaling, tacv_max_scale)
 \item{scaling}{numeric calling constant in local tests pre-computed by \code{diffInf}}
 
 \item{tacv_max_scale, }{maximum scale at which to calculate TVAC}
+
+\item{b_max}{number of starting points to use for the global TAVC estimator; helps with robustness.}
 
 \item{xx_cumus, }{cumulative sum of the data}
 }

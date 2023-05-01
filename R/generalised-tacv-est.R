@@ -1,5 +1,5 @@
 
-generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale)
+generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale = NULL, b_max = NULL)
 {
   #' Robust estimation of TAVC with unknown piecewise polynomial signal
   #'
@@ -8,6 +8,7 @@ generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale)
   #'@param degree polynomial degree of the underlying signal
   #'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
   #'@param tacv_max_scale, maximum scale at which to calculate TVAC
+  #'@param b_max number of starting points to use for the global TAVC estimator; helps with robustness.
   #'
   #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
   #'@references https://github.com/EuanMcGonigle/TAVC.seg
@@ -16,26 +17,36 @@ generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale)
   
   nn <- length(xx_cumsum) - 1
   
+  if (is.null(tacv_max_scale)) tacv_max_scale <- floor(2.5*sqrt(nn))
+  
   if (ww > tacv_max_scale) ww <- tacv_max_scale
   
   if (!(ww %% (degree+2) == 0)) ww <- (degree+2) * floor(ww/(degree+2))
   
-  zz <- sapply(seq(1,nn,ww), function(ll) loc_diff(xx_cumsum, ll, ww, degree) / sqrt(ww*scaling)) ** 2
+  if (is.null(b_max)) b_max <- ww
   
-  zz <- na.omit(zz)
   
-  qq_est <- sqrt(ww/nn) / (2.125365 * median(zz))
+  tavc_est_vec <- numeric(b_max)
   
-  tavc_uniroot <- try(uniroot(catoni_sum, xx = zz, qq = qq_est, interval = c(-10,max(zz))), silent = TRUE)
-  
-  if(class(tavc_uniroot) == "try-error")
+  for (ii in seq_along(tavc_est_vec))
+  {
+    zz <- sapply(seq(ii,nn,ww), function(ll) loc_diff(xx_cumsum, ll, ww, degree) / sqrt(ww*scaling)) ** 2
+    
+    zz <- na.omit(zz)
+    
+    qq_est <- sqrt(ww/(nn)) / (mean(zz, trim = 0.25))
+
+    tavc_uniroot <- try(uniroot(catoni_sum, xx = zz, qq = qq_est, interval = c(-10,max(zz))), silent = TRUE)
+
+    if(class(tavc_uniroot) == "try-error")
     {
-      tavc_est <- NA
+      tavc_est_vec[ii] <- NA
     } else {
-      tavc_est = tavc_uniroot$root
+      tavc_est_vec[ii] = tavc_uniroot$root
     }
+  }
   
-  return(sqrt(tavc_est))
+  return(sqrt(median(tavc_est_vec, na.rm = TRUE)))
 }
 
 
@@ -74,6 +85,6 @@ catoni_sum <- function(tau,xx,qq)
   
   out <-sapply(xx, function(ii) (1/qq) * catoni_influence_fun(qq*(ii-tau)))
   
-  return(sum(out) / length(out))
+  return(mean(out))
 }
 

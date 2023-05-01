@@ -1,5 +1,5 @@
 
-diffInf <- function(xx, degree, alpha, noise_type = c("gaussian","non_gaussian_dependent")[1], dependent_noise = FALSE, tau = NULL, aa = sqrt(2), min_scale = log(length(xx)), HH = NULL, WW = NULL, tacv_max_scale = NULL)
+diffInf <- function(xx, degree, alpha, noise_type = c("gaussian","non_gaussian_dependent")[1], dependent_noise = FALSE, tau = NULL, aa = sqrt(2), min_scale = log(length(xx)), HH = NULL, tacv_max_scale = NULL)
 {
   #' Change point inference via differencing
   #'
@@ -14,7 +14,6 @@ diffInf <- function(xx, degree, alpha, noise_type = c("gaussian","non_gaussian_d
   #'@param aa controls grid density (a in the paper)
   #'@param min_scale minimum width of intervals tested for a change
   #'@param HH supply numeric constant H if pre-computed
-  #'@param WW minimum segment length in the case of non-gaussian or dependent noises (W in the paper)
   #'@param tacv_max_scale coarsest scale on which TAVC will be calculated, all coarser scales will use TAVC calculated on this scale
   #'
   #'@export  
@@ -27,6 +26,8 @@ diffInf <- function(xx, degree, alpha, noise_type = c("gaussian","non_gaussian_d
   
   thresh <- get_thresh(nn, min_scale, alpha, degree, aa, HH, noise_type)
   
+  
+  if (dependent_noise) tau <- generalised_tavc_est(xx_cumsum, (degree+2)*min_scale, degree, scaling)
   
   noise_level_know <- !is.null(tau)
   

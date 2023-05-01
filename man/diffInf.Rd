@@ -14,7 +14,6 @@ diffInf(
   aa = sqrt(2),
   min_scale = log(length(xx)),
   HH = NULL,
-  WW = NULL,
   tacv_max_scale = NULL
 )
 }
@@ -36,8 +35,6 @@ diffInf(
 \item{min_scale}{minimum width of intervals tested for a change}
 
 \item{HH}{supply numeric constant H if pre-computed}
-
-\item{WW}{minimum segment length in the case of non-gaussian or dependent noises (W in the paper)}
 
 \item{tacv_max_scale}{coarsest scale on which TAVC will be calculated, all coarser scales will use TAVC calculated on this scale}
 }
