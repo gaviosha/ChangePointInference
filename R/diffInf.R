@@ -24,24 +24,22 @@ diffInf <- function(xx, degree, alpha, noise_type = c("gaussian","non_gaussian_d
   
   scaling <- sum(choose(degree+1,0:(degree+1))**2) / (degree+2)
   
-  thresh <- get_thresh(nn, min_scale, alpha, degree, aa, HH, noise_type)
-  
-  
-  if (dependent_noise) tau <- generalised_tavc_est(xx_cumsum, (degree+2)*min_scale, degree, scaling)
   
   noise_level_know <- !is.null(tau)
   
-  if (dependent_noise && is.null(tacv_max_scale)) tacv_max_scale <- floor(2.5*sqrt(nn))
+  if (!noise_level_know && !dependent_noise) tau <- stats::mad(diff(xx/sqrt(2)))
   
-  if (!noise_level_know) tau <- ifelse(dependent_noise, generalised_tavc_est(xx_cumsum, tacv_max_scale, degree, scaling, tacv_max_scale), stats::mad(diff(xx/sqrt(2))))
+  if (!noise_level_know && dependent_noise) tau <- generalised_tavc_est(xx_cumsum, (degree+2)*min_scale, degree, scaling)
+  
+  thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, noise_type)
   
   
   ints_df <- data.frame(matrix(nrow = 0, ncol = 3))
   
   names(ints_df) <- c("start", "end", "value")
   
-  ints_out <- diff_bin_seg(xx_cumsum, 1, nn, degree, aa, min_scale, thresh, scaling, tau, tacv_max_scale, noise_level_know, noise_type, dependent_noise)
-  
+  ints_out <- diff_bin_seg(xx_cumsum, 1, nn, degree, aa, min_scale, thresh, scaling)
+
   ints_out <- rbind(ints_df,ints_out)
   
   return(

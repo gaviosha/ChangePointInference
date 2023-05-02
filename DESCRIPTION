@@ -1,4 +1,4 @@
-Package: diffInf
+Package: ChangePointInference
 Title: Inference for Change Points in Piecewise Polynomials via Differencing
 Version: 0.0.0.9000
 Authors@R: person("Shakeel", "Gavioli-Akilagun", , "s.a.gavioli-akilagun@lse.ac.uk", role = c("aut", "cre"))

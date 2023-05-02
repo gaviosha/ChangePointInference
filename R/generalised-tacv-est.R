@@ -73,7 +73,7 @@ catoni_influence_fun <- function(xx)
 
 catoni_sum <- function(tau,xx,qq)
 {
-  #' Funtion to be optimised to obtain an estimate for \tau
+  #' Function to be optimized to obtain an estimate for \tau
   #'
   #'@param tau, parameter
   #'@param xx, data vector
