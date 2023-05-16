@@ -2,7 +2,7 @@
 % Please edit documentation in R/generalised-tacv-est.R
 \name{catoni_sum}
 \alias{catoni_sum}
-\title{Funtion to be optimised to obtain an estimate for \tau}
+\title{Function to be optimized to obtain an estimate for \tau}
 \usage{
 catoni_sum(tau, xx, qq)
 }
@@ -14,7 +14,7 @@ catoni_sum(tau, xx, qq)
 \item{qq, }{scaling}
 }
 \description{
-Funtion to be optimised to obtain an estimate for \tau
+Function to be optimized to obtain an estimate for \tau
 }
 \references{
 Catoni, Olivier. "Challenging the empirical mean and empirical variance: a deviation study." Annales de l'IHP Probabilités et statistiques. Vol. 48. No. 4. 2012.
