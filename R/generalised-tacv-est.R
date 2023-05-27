@@ -1,19 +1,19 @@
+#'@title Robust estimation of TAVC with unknown piecewise polynomial signal
+#'@description A short description...
+#'@param xx_cumus, cumulative sum of the data 
+#'@param ww, scale at which TVAC will be calculated  
+#'@param degree polynomial degree of the underlying signal
+#'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
+#'@param tacv_max_scale, maximum scale at which to calculate TVAC
+#'@param b_max number of starting points to use for the global TAVC estimator; helps with robustness.
+#'
+#'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
+#'@references https://github.com/EuanMcGonigle/TAVC.seg
+#'
+#'@export
 
 generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale = NULL, b_max = NULL)
 {
-  #' Robust estimation of TAVC with unknown piecewise polynomial signal
-  #'
-  #'@param xx_cumus, cumulative sum of the data 
-  #'@param ww, scale at which TVAC will be calculated  
-  #'@param degree polynomial degree of the underlying signal
-  #'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
-  #'@param tacv_max_scale, maximum scale at which to calculate TVAC
-  #'@param b_max number of starting points to use for the global TAVC estimator; helps with robustness.
-  #'
-  #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
-  #'@references https://github.com/EuanMcGonigle/TAVC.seg
-  #'
-  #'@export
   
   nn <- length(xx_cumsum) - 1
   

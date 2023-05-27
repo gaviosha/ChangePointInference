@@ -36,5 +36,5 @@ diffInf(
 \item{HH}{supply numeric constant H if pre-computed}
 }
 \description{
-Main routine
+TO-DO!
 }

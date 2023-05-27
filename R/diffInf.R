@@ -1,21 +1,21 @@
+#'@title Change point inference via differencing
+#'@description
+#' TO-DO!
+#'
+#'@param xx signal to be segmented
+#'@param degree polynomial degree of the underlying signal
+#'@param alpha desired coverage 
+#'@param noise_type one of "gaussian" or "non_gaussian_dependent"
+#'@param dependent_noise whether the noise is serially dependent
+#'@param tau noise level if know, if null the noise level will be estimated via MAD if the noise in independent and via TACV estimator if the noise is dependent
+#'@param aa controls grid density (a in the paper)
+#'@param min_scale minimum width of intervals tested for a change
+#'@param HH supply numeric constant H if pre-computed
+#'
+#'@export  
 
 diffInf <- function(xx, degree, alpha = 0.1, noise_type = c("gaussian","non_gaussian_dependent")[1], dependent_noise = FALSE, tau = NULL, aa = sqrt(2), min_scale = floor(sqrt(length(xx))), HH = NULL)
 {
-  #' Change point inference via differencing
-  #'
-  #' Main routine
-  #'
-  #'@param xx signal to be segmented
-  #'@param degree polynomial degree of the underlying signal
-  #'@param alpha desired coverage 
-  #'@param noise_type one of "gaussian" or "non_gaussian_dependent"
-  #'@param dependent_noise whether the noise is serially dependent
-  #'@param tau noise level if know, if null the noise level will be estimated via MAD if the noise in independent and via TACV estimator if the noise is dependent
-  #'@param aa controls grid density (a in the paper)
-  #'@param min_scale minimum width of intervals tested for a change
-  #'@param HH supply numeric constant H if pre-computed
-  #'
-  #'@export  
   
   nn <- length(xx)
   
@@ -41,10 +41,10 @@ diffInf <- function(xx, degree, alpha = 0.1, noise_type = c("gaussian","non_gaus
 
   ints_out <- rbind(ints_df,ints_out)
   
-  return(
-    list(
-    intervals = ints_out, 
-    thresh = thresh, 
-    data = xx
-    ))
+  
+  out <- list(intervals = ints_out, thresh = thresh, data = xx)
+  
+  class(out) <- c("cptInference", class(out))
+  
+  return(out)
 }

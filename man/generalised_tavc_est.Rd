@@ -27,7 +27,7 @@ generalised_tavc_est(
 \item{xx_cumus, }{cumulative sum of the data}
 }
 \description{
-Robust estimation of TAVC with unknown piecewise polynomial signal
+A short description...
 }
 \references{
 McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648.
