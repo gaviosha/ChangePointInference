@@ -27,17 +27,16 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, dependent_no
   noise_level_know <- !is.null(tau)
   
   
-  if (gaussian_noise && !dependent_noise) min_scale <- log(nn)
+  # if (gaussian_noise && !dependent_noise) min_scale <- log(nn)
   
   if (!noise_level_know && gaussian_noise && !dependent_noise) tau <- stats::mad(diff(xx/sqrt(2)))
   
   if (!noise_level_know && (!gaussian_noise || dependent_noise)) 
   {
-    if (noise_est == "mad") tau <- blockwise_mad(xx, degree, min_scale)
+    if (noise_est == "mad") tau <- max(generalised_tavc_est(xx, (degree+2)*min_scale, degree), blockwise_mad(xx, degree, (degree+2)*min_scale))
     
-    if (noise_est == "tavc") tau <- generalised_tavc_est(xx, min_scale, degree)
+    if (noise_est == "tavc") tau <- generalised_tavc_est(xx, (degree+2)*min_scale, degree)
   }
-  
   
   thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, (gaussian_noise && !dependent_noise))
   

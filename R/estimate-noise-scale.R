@@ -13,7 +13,7 @@
 generalised_tavc_est <- function(xx, ww, degree, tacv_max_scale = NULL, b_max = NULL)
 {
   
-  xx_cumsum <- c(0,xx)
+  xx_cumsum <- c(0,cumsum(xx))
   
   scaling <- sum(choose(degree+1,0:(degree+1))**2) / (degree+2)
   
