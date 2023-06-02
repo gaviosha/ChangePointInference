@@ -6,14 +6,16 @@
 #'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
 #'@param tacv_max_scale, maximum scale at which to calculate TVAC
 #'@param b_max number of starting points to use for the global TAVC estimator; helps with robustness.
-#'
 #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
 #'@references https://github.com/EuanMcGonigle/TAVC.seg
-#'
 #'@export
 
-generalised_tavc_est <- function(xx_cumsum, ww, degree, scaling, tacv_max_scale = NULL, b_max = NULL)
+generalised_tavc_est <- function(xx, ww, degree, tacv_max_scale = NULL, b_max = NULL)
 {
+  
+  xx_cumsum <- c(0,xx)
+  
+  scaling <- sum(choose(degree+1,0:(degree+1))**2) / (degree+2)
   
   nn <- length(xx_cumsum) - 1
   
@@ -59,8 +61,6 @@ catoni_influence_fun <- function(xx)
   #'@references Catoni, Olivier. "Challenging the empirical mean and empirical variance: a deviation study." Annales de l'IHP Probabilités et statistiques. Vol. 48. No. 4. 2012.
   #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
   #'@references https://github.com/EuanMcGonigle/TAVC.seg
-  #'
-  #'@export
   
   if (xx >= 1) return(log(2))
   
@@ -88,3 +88,23 @@ catoni_sum <- function(tau,xx,qq)
   return(mean(out))
 }
 
+
+#'Blockwise MAD
+#'
+#'@param xx 
+#'@param ww 
+#'@param degree
+#'
+#'@export
+blockwise_mad <- function(xx, degree, ww)
+{
+  nn <- length(xx)
+  
+  cp <- sum(choose(degree+1,0:(degree+1))**2)
+  
+  block_means <- sapply(0:(floor(nn/ww)-1), function(jj) mean(xx[(jj*ww+1):((jj+1)*ww)]))
+  
+  block_diffs <- diff(block_means, differences = (degree+1))
+  
+  sqrt(ww) * mad(block_diffs / sqrt(cp))
+}

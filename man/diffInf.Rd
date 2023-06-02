@@ -8,12 +8,13 @@ diffInf(
   xx,
   degree,
   alpha = 0.1,
-  noise_type = c("gaussian", "non_gaussian_dependent")[1],
+  gaussian_noise = TRUE,
   dependent_noise = FALSE,
   tau = NULL,
   aa = sqrt(2),
   min_scale = floor(sqrt(length(xx))),
-  HH = NULL
+  HH = NULL,
+  noise_est = c("mad", "tavc")[1]
 )
 }
 \arguments{
@@ -23,7 +24,7 @@ diffInf(
 
 \item{alpha}{desired coverage}
 
-\item{noise_type}{one of "gaussian" or "non_gaussian_dependent"}
+\item{gaussian_noise}{whether the noise is Gaussian}
 
 \item{dependent_noise}{whether the noise is serially dependent}
 
@@ -34,6 +35,8 @@ diffInf(
 \item{min_scale}{minimum width of intervals tested for a change}
 
 \item{HH}{supply numeric constant H if pre-computed}
+
+\item{noise_est}{how will the noise be estimated}
 }
 \description{
 TO-DO!
