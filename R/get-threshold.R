@@ -53,7 +53,7 @@ H_nongauss <- function(degree, aa)
   return(C_xi_p / (1-(1/aa)))
 }
 
-get_thresh <- function(nn, WW, alpha, degree, aa, HH, noise_type)
+get_thresh <- function(nn, WW, alpha, degree, aa, HH, gauss_indep_noise)
 {
   #' Get threshold
   #'
@@ -65,9 +65,9 @@ get_thresh <- function(nn, WW, alpha, degree, aa, HH, noise_type)
   #'@param degree polynomial degree of the underlying signal
   #'@param aa controls grid density (a in the paper)
   #'@param HH numeric constant 
-  #'@param noise_type one of "gaussian" or "non_gaussian_dependent"
+  #'@param gauss_indep_noise true if noise is Gaussian and independent
   
-  if (noise_type == "gaussian")
+  if (gauss_indep_noise)
   {
     HH <- ifelse(is.null(HH), H_num_est_gauss(degree, aa), HH)
     
@@ -75,7 +75,7 @@ get_thresh <- function(nn, WW, alpha, degree, aa, HH, noise_type)
     
     b_n <- 1/sqrt(2*log(nn))
     
-  } else if (noise_type == "non_gaussian_dependent") {
+  } else {
     
     HH <- ifelse(is.null(HH), H_nongauss(degree, aa), HH)
     

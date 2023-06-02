@@ -39,7 +39,7 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, dependent_no
   }
   
   
-  thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, noise_type)
+  thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, (gaussian_noise && !dependent_noise))
   
   ints_df <- data.frame(matrix(nrow = 0, ncol = 3))
   
