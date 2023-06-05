@@ -35,7 +35,7 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_
   }
   
   
-  if (gaussian_noise && !independent_noise) min_scale <- log(nn)
+  if (gaussian_noise && independent_noise) min_scale <- log(nn)
   
   thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, (gaussian_noise && !independent_noise))
   
