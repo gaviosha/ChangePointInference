@@ -9,12 +9,11 @@ diffInf(
   degree,
   alpha = 0.1,
   gaussian_noise = TRUE,
-  dependent_noise = FALSE,
+  independent_noise = TRUE,
   tau = NULL,
   aa = sqrt(2),
   min_scale = floor(sqrt(length(xx))),
-  HH = NULL,
-  noise_est = c("mad", "tavc")[1]
+  HH = NULL
 )
 }
 \arguments{
@@ -26,7 +25,7 @@ diffInf(
 
 \item{gaussian_noise}{whether the noise is Gaussian}
 
-\item{dependent_noise}{whether the noise is serially dependent}
+\item{independent_noise}{whether the noise is serially dependent}
 
 \item{tau}{noise level if know, if null the noise level will be estimated via MAD if the noise in independent and via TACV estimator if the noise is dependent}
 
@@ -34,9 +33,7 @@ diffInf(
 
 \item{min_scale}{minimum width of intervals tested for a change}
 
-\item{HH}{supply numeric constant H if pre-computed}
-
-\item{noise_est}{how will the noise be estimated}
+\item{HH}{supply numeric constant H if pre-compute}
 }
 \description{
 TO-DO!

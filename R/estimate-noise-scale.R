@@ -9,8 +9,7 @@
 #'@references McGonigle, Euan T., and Haeran Cho. "Robust multiscale estimation of time-average variance for time series segmentation." Computational Statistics & Data Analysis 179 (2023): 107648. 
 #'@references https://github.com/EuanMcGonigle/TAVC.seg
 #'@export
-
-generalised_tavc_est <- function(xx, ww, degree, tacv_max_scale = NULL, b_max = NULL)
+gen_diff_catoni_tavc <- function(xx, ww, degree, tacv_max_scale = NULL, b_max = NULL)
 {
   
   xx_cumsum <- c(0,cumsum(xx))
@@ -88,23 +87,36 @@ catoni_sum <- function(tau,xx,qq)
   return(mean(out))
 }
 
+#'Median Absolute Deviation estimator based on differenced data
+#'@description TO DO! 
+#'@param xx data
+#'@param degree degree of the underlying signal
+#'@export 
+gen_diff_mad <- function(xx, degree)
+{
+  xx_diff <- diff(xx, differences = (degree+1))
+  
+  cp <- sum(choose(degree+1, 0:(degree+1))**2)
+  
+  return(mad(xx_diff/ sqrt(cp)))
+}
 
-#'Blockwise MAD
-#'
-#'@param xx 
-#'@param ww 
-#'@param degree
-#'
+
+#'Standard deviation estimator based on differenced data
+#'@description TO DO!
+#'@param xx data 
+#'@param degree degree of the underlying 
 #'@export
-blockwise_mad <- function(xx, degree, ww)
+gen_diff_sd <- function(xx, degree)
 {
   nn <- length(xx)
   
-  cp <- sum(choose(degree+1,0:(degree+1))**2)
+  cp <- sum(choose(degree+1, 0:(degree+1))**2)
   
-  block_means <- sapply(0:(floor(nn/ww)-1), function(jj) mean(xx[(jj*ww+1):((jj+1)*ww)]))
+  xx_diff <- diff(xx, differences = (degree+1))
   
-  block_diffs <- diff(block_means, differences = (degree+1))
+  var_est <- sum((xx_diff**2)/cp) / (nn - (degree+1))
   
-  sqrt(ww) * mad(block_diffs / sqrt(cp))
+  return(sqrt(var_est))
 }
+

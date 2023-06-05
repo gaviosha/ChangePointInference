@@ -4,7 +4,7 @@
 \alias{get_thresh}
 \title{Get threshold}
 \usage{
-get_thresh(nn, WW, alpha, degree, aa, HH, noise_type)
+get_thresh(nn, WW, alpha, degree, aa, HH, gauss_indep_noise)
 }
 \arguments{
 \item{nn}{length of the data sequence}
@@ -19,7 +19,7 @@ get_thresh(nn, WW, alpha, degree, aa, HH, noise_type)
 
 \item{HH}{numeric constant}
 
-\item{noise_type}{one of "gaussian" or "non_gaussian_dependent"}
+\item{gauss_indep_noise}{true if noise is Gaussian and independent}
 }
 \description{
 Calculate threshold for FWE control
