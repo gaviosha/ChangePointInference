@@ -15,7 +15,6 @@
 
 diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_noise = TRUE, tau = NULL, aa = sqrt(2), min_scale = floor(sqrt(length(xx))), HH = NULL)
 {
-  
   nn <- length(xx)
   
   xx_cumsum <- c(0,cumsum(xx))
@@ -37,7 +36,7 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_
   
   if (gaussian_noise && independent_noise) min_scale <- log(nn)
   
-  thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, (gaussian_noise && !independent_noise))
+  thresh <- tau * get_thresh(nn, min_scale, alpha, degree, aa, HH, (gaussian_noise && independent_noise))
   
   ints_df <- data.frame(matrix(nrow = 0, ncol = 3))
   
