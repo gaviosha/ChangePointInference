@@ -15,7 +15,7 @@ cpt <- function(obj, cpt_loc = c("midpoint","RSS")[1])
   
   if (cpt_loc == "midpoint") est_cpt_locs <- apply(intervals, 1, function(ii) round((ii[1]+ii[2])/2))
   
-  if (cpt_loc == "RSS") est_cpt_locs <- apply(intervals, 1, function(ii) min_rss_cpt(data,ii[1],ii[2], degree))
+  if (cpt_loc == "RSS") est_cpt_locs <- apply(intervals, 1, function(ii) min_rss_cpt(data, ii[1],ii[2], degree))
   
   return(est_cpt_locs)
 }

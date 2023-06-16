@@ -1,7 +1,7 @@
 
 min_rss_cpt <- function(data, ss, ee, degree)
 {
-  if (ee - ss < 2*degree) return(round(mean(c(ss,ee))))
+  if (ee - ss < (degree+1)) return(round(mean(c(ss,ee))))
   
   cpt_locs <- (ss + degree + 1):(ee - degree - 1)
   

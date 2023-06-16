@@ -47,7 +47,7 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_
   ints_out <- rbind(ints_df,ints_out)
   
   
-  out <- list(intervals = ints_out, thresh = thresh, data = xx)
+  out <- list(intervals = ints_out, thresh = thresh, data = xx, degree = degree)
   
   class(out) <- c("cptInference", class(out))
   
