@@ -13,7 +13,7 @@
 #'@param HH supply numeric constant H if pre-compute
 #'@export  
 
-diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_noise = TRUE, tau = NULL, aa = sqrt(2), min_scale = floor(sqrt(length(xx))), HH = NULL)
+diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_noise = TRUE, tau = NULL, aa = sqrt(2), min_scale = floor(sqrt(length(xx))/2), HH = NULL)
 {
   nn <- length(xx)
   
@@ -30,7 +30,7 @@ diffInf <- function(xx, degree, alpha = 0.1, gaussian_noise = TRUE, independent_
     
     if (!gaussian_noise && independent_noise) tau <- gen_diff_sd(xx, degree)
     
-    if (!independent_noise) tau <- gen_diff_catoni_tavc(xx, (degree+2)*min_scale, degree)
+    if (!independent_noise) tau <- gen_diff_block_sd(xx, min_scale, degree)
   }
   
   

@@ -120,3 +120,27 @@ gen_diff_sd <- function(xx, degree)
   return(sqrt(var_est))
 }
 
+
+#'Standard deviation estimator based on differences of partial sums of the data
+#'@description TO DO!
+#'@param xx data 
+#'@param ww TO DO! 
+#'@param degree degree of the underlying 
+#'@export
+gen_diff_block_sd <- function(xx, ww = sqrt(length(xx)/2), degree = 0)
+{
+  nn <- length(xx)
+  
+  mm <- floor(nn/ww)
+  
+  Cp <- sum(choose(degree + 1, 0:(degree + 1))^2)
+  
+  blocks <- split(xx, cut(seq_along(xx), mm, labels = FALSE)) 
+  
+  block_partial_sums <- sapply(blocks, function(ii) sum(ii) / sqrt(ww))
+  
+  block_diffs <- diff(block_partial_sums, differences = degree + 1)
+  
+  sqrt(mean(block_diffs^2 / Cp))
+}
+

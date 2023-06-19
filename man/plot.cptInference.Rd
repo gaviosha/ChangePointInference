@@ -4,7 +4,7 @@
 \alias{plot.cptInference}
 \title{Plot a 'cptInference' object}
 \usage{
-\method{plot}{cptInference}(obj, cpt_loc = c(FALSE, "midpoint")[1], ...)
+\method{plot}{cptInference}(obj, cpt_loc_est = FALSE, ...)
 }
 \arguments{
 \item{obj}{An object of class 'cptInference', returned by \code{diffInf}.}

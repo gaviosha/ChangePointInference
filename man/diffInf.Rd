@@ -12,7 +12,7 @@ diffInf(
   independent_noise = TRUE,
   tau = NULL,
   aa = sqrt(2),
-  min_scale = floor(sqrt(length(xx))),
+  min_scale = floor(sqrt(length(xx))/2),
   HH = NULL
 )
 }
