@@ -4,10 +4,10 @@
 \alias{loc_diff}
 \title{Local differences}
 \usage{
-loc_diff(xx_cumsum, ll, ww, degree)
+loc_diff(yy_cumsum, ll, ww, degree)
 }
 \arguments{
-\item{xx_cumsum}{cumulative sum of data}
+\item{yy_cumsum}{cumulative sum of data}
 
 \item{ll}{start of the segment}
 

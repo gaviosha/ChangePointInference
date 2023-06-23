@@ -4,10 +4,10 @@
 \alias{diff_bin_seg}
 \title{diffInf binary segmentation}
 \usage{
-diff_bin_seg(xx_cumsum, ss, ee, degree, aa, min_scale, thresh, scaling)
+diff_bin_seg(yy_cumsum, ss, ee, degree, aa, min_scale, thresh, scaling)
 }
 \arguments{
-\item{xx_cumsum}{cumulative sum of data}
+\item{yy_cumsum}{cumulative sum of data}
 
 \item{ss}{start of search area}
 

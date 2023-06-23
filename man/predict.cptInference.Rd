@@ -4,7 +4,7 @@
 \alias{predict.cptInference}
 \title{Predict a 'cptInference' object}
 \usage{
-\method{predict}{cptInference}(obj, cpt_loc = c("midpoint", "RSS")[1])
+\method{predict}{cptInference}(obj, cpt_loc = "RSS")
 }
 \arguments{
 \item{obj}{An object of class 'cptInference', returned by \code{diffInf}.}

@@ -1,15 +1,15 @@
 
-p_inf_sqrd <- function(xx)
+p_inf_sqrd <- function(yy)
 {
   #' P-inf
   #' 
   #' Numerically approximates the square of function p_\inf on page 32 of Kabluchko (2018)
   #'
-  #'@param xx a positive number
+  #'@param yy a positive number
   #'
   #'@references Kabluchko, Zakhar. "Extreme-value analysis of standardized Gaussian increments." arXiv preprint arXiv:0706.1849 (2018).
   
-  exp(-2*sum((1/(1:1000)) * pnorm(-sqrt((xx*(1:1000)/4)))))
+  exp(-2*sum((1/(1:1000)) * pnorm(-sqrt((yy*(1:1000)/4)))))
 }
 
 

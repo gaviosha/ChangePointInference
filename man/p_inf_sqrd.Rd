@@ -4,10 +4,10 @@
 \alias{p_inf_sqrd}
 \title{P-inf}
 \usage{
-p_inf_sqrd(xx)
+p_inf_sqrd(yy)
 }
 \arguments{
-\item{xx}{a positive number}
+\item{yy}{a positive number}
 }
 \description{
 Numerically approximates the square of function p_\inf on page 32 of Kabluchko (2018)

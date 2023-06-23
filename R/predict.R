@@ -4,7 +4,7 @@
 #' @export 
 #' @param obj An object of class 'cptInference', returned by \code{diffInf}.
 
-predict.cptInference <- function(obj, cpt_loc = c("midpoint","RSS")[1])
+predict.cptInference <- function(obj, cpt_loc = "RSS")
 {
   data <- obj$data
   
