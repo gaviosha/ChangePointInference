@@ -1,9 +1,38 @@
-#' @title Predict a 'cptInference' object
-#' @description 123
+#' @title Predict a 'cptInference' Object
+#' @description Fits a piecewise polynomial signal to the to the data, using change point locations recovered by \code{\link{cpt}}
+#' @param obj An object of class 'cptInference'. 
+#' @param cpt_loc Determines how the change points will be estimated. If \code{cpt_loc = "RSS"} the change points are taken to be the split points within each interval which provide the lowest RSS when a piecewise polynomial function is fitted on the same interval. If \code{cpt_loc = "midpoint"} the change points are taken to be the midpoint of each interval. 
 #' @method predict cptInference
+#' @examples
+#' #' Piecewise linear mean with i.i.d. Gaussian noise
+#' 
+#' set.seed(42)
+#' 
+#' waves_signal <- c((1:150) * (2**-3), (150:1) * (2**-3), (1:150) * (2**-3), (150:1) * (2**-3))
+#' 
+#' yy <- waves_signal + rnorm(length(waves_signal), sd = 5)
+#' 
+#' 
+#' #' Recover intervals of significance
+#' 
+#' diffInf_obj <- diffInf(yy, degree = 1)
+#' 
+#' diffInf_obj
+#' 
+#' #' plot the intervals of significance
+#' 
+#' diffInf_obj |> plot(type = "l", col = "grey")
+#' 
+#' waves_signal |> lines(lty = 2, lwd = 2)
+#' 
+#' 
+#' #' recover fitted signal
+#' 
+#' lines(predict(diffInf_obj, "RSS"), col = "red", lty = 2, lwd = 2)
+#' 
+#' lines(predict(diffInf_obj, "midpoint"), col = "blue", lty = 3, lwd = 2)
+#' 
 #' @export 
-#' @param obj An object of class 'cptInference', returned by \code{diffInf}.
-
 predict.cptInference <- function(obj, cpt_loc = "RSS")
 {
   data <- obj$data

@@ -2,13 +2,45 @@
 % Please edit documentation in R/plot.R
 \name{plot.cptInference}
 \alias{plot.cptInference}
-\title{Plot a 'cptInference' object}
+\title{Plot a 'cptInference' Object}
 \usage{
 \method{plot}{cptInference}(obj, cpt_loc_est = FALSE, ...)
 }
 \arguments{
-\item{obj}{An object of class 'cptInference', returned by \code{diffInf}.}
+\item{obj}{An object of class 'cptInference'.}
+
+\item{cpt_loc_est}{One of \code{"RSS"}, \code{"midpoint"}, or \code{FALSE}. If \code{"RSS"} or \code{"midpoint"} the mosyt likely change pint location within each interval will be plotted. If \code{FALSE} only the intervals are plotted.}
+
+\item{...}{Additional graphical parameters passed to \code{\link{plot}}.}
 }
 \description{
-Plots the data and as well as intervals of significance returned by the algorithm
+Plots the data and as well as intervals of significance returned by the \code{\link{diffInf}}.
+}
+\examples{
+# Piecewise linear mean with i.i.d. Gaussian noise
+
+set.seed(42)
+
+waves_signal <- c((1:150) * (2**-3), (150:1) * (2**-3), (1:150) * (2**-3), (150:1) * (2**-3))
+
+yy <- waves_signal + rnorm(length(waves_signal), sd = 5)
+
+
+# Recover intervals of significance
+
+diffInf_obj <- diffInf(yy, degree = 1)
+
+diffInf_obj
+
+# plot the intervals of significance
+
+diffInf_obj |> plot("RSS", type = "l", col = "grey")
+
+# plot intervals and minimum RSS split points
+
+diffInf_obj |> plot("RSS", type = "l", col = "grey")
+
+# plot the intervals and their midpoints
+
+diffInf_obj |> plot("midpoint", type = "l", col = "grey")
 }

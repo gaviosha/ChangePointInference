@@ -2,13 +2,45 @@
 % Please edit documentation in R/predict.R
 \name{predict.cptInference}
 \alias{predict.cptInference}
-\title{Predict a 'cptInference' object}
+\title{Predict a 'cptInference' Object}
 \usage{
 \method{predict}{cptInference}(obj, cpt_loc = "RSS")
 }
 \arguments{
-\item{obj}{An object of class 'cptInference', returned by \code{diffInf}.}
+\item{obj}{An object of class 'cptInference'.}
+
+\item{cpt_loc}{Determines how the change points will be estimated. If \code{cpt_loc = "RSS"} the change points are taken to be the split points within each interval which provide the lowest RSS when a piecewise polynomial function is fitted on the same interval. If \code{cpt_loc = "midpoint"} the change points are taken to be the midpoint of each interval.}
 }
 \description{
-123
+Fits a piecewise polynomial signal to the to the data, using change point locations recovered by \code{\link{cpt}}
+}
+\examples{
+#' Piecewise linear mean with i.i.d. Gaussian noise
+
+set.seed(42)
+
+waves_signal <- c((1:150) * (2**-3), (150:1) * (2**-3), (1:150) * (2**-3), (150:1) * (2**-3))
+
+yy <- waves_signal + rnorm(length(waves_signal), sd = 5)
+
+
+#' Recover intervals of significance
+
+diffInf_obj <- diffInf(yy, degree = 1)
+
+diffInf_obj
+
+#' plot the intervals of significance
+
+diffInf_obj |> plot(type = "l", col = "grey")
+
+waves_signal |> lines(lty = 2, lwd = 2)
+
+
+#' recover fitted signal
+
+lines(predict(diffInf_obj, "RSS"), col = "red", lty = 2, lwd = 2)
+
+lines(predict(diffInf_obj, "midpoint"), col = "blue", lty = 3, lwd = 2)
+
 }
