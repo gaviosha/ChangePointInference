@@ -1,50 +1,62 @@
-# diffInf
-R implementation of the algorithm introduced in "Fast and Optimal Inference for Change Points in Piecewise Polynomials via Differencing"
+# Change Point Inference
 
+R implementation of the procedure introduced in the paper "Fast and Optimal Inference for Change Points in Piecewise Polynomials via Differencing".
+
+Given a vector of observations from a one dimensional signal + noise model, where the signal is a piecewise polynomial function of known degree, the procedure returns disjoint intervals which must each contain a change point location uniformly at some level specified by the parameter `alpha`. 
+
+By default the contaminating noise is assumed to be independently distributed and Gaussian. However, this behaviour can be changed by setting the parameters `gaussian_noise` and `independent_noise` appropriately. 
+
+## installation
+
+The R package can be installed this from this repository using `devtools`. 
+
+```r
+devtools::install_github("gaviosha/ChangePointInference")
+```
 
 ## Usage 
 
-A small example with the `blocks` signal. 
+### Piecewise constant signals + Gaussian noise
 
 ```r
-
-library("nsp")
-
-library("diffInf")
-
-## blocks signal contaminated with Gaussian noise
+library(ChangePointInference)
 
 set.seed(42)
 
-par(mfrow = c(2,1))
-
 blocks <- c(rep(0,205),rep(14.64,62),rep(-3.66,41),rep(7.32,164),rep(-7.32,40))
 
-yy <- blocks + rnorm(length(blocks), sd = 10)
+yy <- blocks + rnorm(length(blocks), sd = 7.5)
+
+diffInf_obj <- diffInf(yy, degree = 0, alpha = 0.1)
 
 
+diffInf_obj |> plot(type = "l", col = "grey")
 
-## DiffInf intervals
-
-diffinf_obj <- diffInf(yy, degree = 0, alpha = 0.05)
-
-yy |> plot(main = "DiffInf (a = 2)")
-
-blocks |> lines(lty = 2, lwd = 3)
-
-draw_rects(diffinf_obj, yrange = c(min(yy),max(yy)), col = "blue")
-
-
-## NSP interval
-
-nsp_obj <- nsp_poly(yy, deg = 0, alpha = 0.05)
-
-yy |> plot(main = "NSP")
-
-blocks |> lines(lty = 2, lwd = 3)
-
-draw_rects(nsp_obj, yrange = c(min(yy),max(yy)), col = "red")
+blocks |> lines(lty = 2, col = "red")
 
 ```
 
-![blocks](blocks-nsp-diffInf.png)
+![blocks](blocks-example.png)
+
+
+### Piecewise linear signal + coloured noise
+
+```r
+library(ChangePointInference)
+
+set.seed(42)
+
+waves_signal <- c((1:150) * (2**-3), (150:1) * (2**-3), (1:150) * (2**-3), (150:1) * (2**-3))
+
+yy <- waves_signal + 2 * arima.sim(model = list(ar = 0.25), n = length(waves_signal))
+
+diffInf_obj <- diffInf(yy, degree = 1, alpha = 0.1, independent_noise = FALSE)
+
+
+diffInf_obj |> plot(type = "l", col = "grey")
+
+waves_signal |> lines(lty = 2, lwd = 2, col = "red")
+```
+
+![waves](waves-example.png)
+
