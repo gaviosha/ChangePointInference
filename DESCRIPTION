@@ -2,8 +2,13 @@ Package: ChangePointInference
 Title: Inference for Change Points in Piecewise Polynomials via Differencing
 Version: 0.0.0.9000
 Authors@R: person("Shakeel", "Gavioli-Akilagun", , "s.a.gavioli-akilagun@lse.ac.uk", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: GPL (>= 3)
+Description: R implementation of the procedure introduced in the paper 
+    "Fast and Optimal Inference for Change Points in Piecewise Polynomials via Differencing".
+    Given a vector of observations from a one dimensional signal + noise model,
+    where the signal is a piecewise polynomial function of known degree, 
+    the procedure returns disjoint intervals which must each contain a change point location
+    uniformly at some level specified by the parameter `alpha`. 
+License: GPL-3License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
