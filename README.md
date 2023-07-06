@@ -2,11 +2,9 @@
 
 R implementation of the procedure introduced in the paper "Fast and Optimal Inference for Change Points in Piecewise Polynomials via Differencing".
 
-Given a vector of observations from a one dimensional signal + noise model, where the signal is a piecewise polynomial function of known degree, the procedure returns disjoint intervals which must each contain a change point location uniformly at some level specified by the parameter `alpha`. 
+Given a vector of observations from a one dimensional signal + noise model, where the signal is a piecewise polynomial function of known degree, the procedure returns disjoint intervals which must each contain a change point location uniformly at some significance level specified by the parameter `alpha`. By default the contaminating noise is assumed to be independently distributed and Gaussian. However, this behaviour can be changed by setting the parameters `gaussian_noise` and `independent_noise` appropriately. 
 
-By default the contaminating noise is assumed to be independently distributed and Gaussian. However, this behaviour can be changed by setting the parameters `gaussian_noise` and `independent_noise` appropriately. 
-
-## installation
+## Installation
 
 The R package can be installed this from this repository using `devtools`. 
 
@@ -60,3 +58,4 @@ waves_signal |> lines(lty = 2, lwd = 2, col = "red")
 
 ![waves](waves-example.png)
 
+## References
