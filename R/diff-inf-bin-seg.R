@@ -6,7 +6,8 @@ loc_diff <- function(yy_cumsum, ll, ww, degree)
   #'@param ll start of the segment
   #'@param ww number of data points in the segment
   #'@param degree polynomial degree of the underlying signal
-
+  #'@noRd
+  
   local_sums <- sapply(0:(degree+1), function(jj) yy_cumsum[ll+((jj+1)*ww/(degree+2))] - yy_cumsum[ll+(jj*ww/(degree+2))])
   
   local_diff <- diff(local_sums, differences = degree + 1)
@@ -29,6 +30,7 @@ diff_bin_seg <- function(yy_cumsum, ss, ee, degree, aa, min_scale, thresh, scali
   #'@param min_scale minimum width of intervals tested for a change
   #'@param thresh threshold to control FWE computed by `diffInf`
   #'@param scaling numeric calling constant in local tests pre-computed by `diffInf`
+  #'@noRd
   
   nn_loc <- (ee - ss + 1)
   

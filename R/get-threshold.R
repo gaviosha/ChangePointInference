@@ -8,6 +8,7 @@ p_inf_sqrd <- function(yy)
   #'@param yy a positive number
   #'
   #'@references Kabluchko, Zakhar. "Extreme-value analysis of standardized Gaussian increments." arXiv preprint arXiv:0706.1849 (2018).
+  #'@noRd
   
   exp(-2*sum((1/(1:1000)) * pnorm(-sqrt((yy*(1:1000)/4)))))
 }
@@ -21,6 +22,7 @@ H_num_est_gauss <- function(degree, aa)
   #'
   #'@param degree polynomial degree of the underlying signal
   #'@param aa controls grid density (a in the paper)
+  #'@noRd
   
   c1 <- sum(choose(degree+1,1:(degree+1))*choose(degree+1,0:degree))
   
@@ -43,6 +45,7 @@ H_nongauss <- function(degree, aa)
   #'
   #'@param degree polynomial degree of the underlying signal
   #'@param aa controls grid density (a in the paper)
+  #'@noRd
   
   c1 <- sum(choose(degree+1,1:(degree+1))*choose(degree+1,0:degree))
   
@@ -66,6 +69,7 @@ get_thresh <- function(nn, WW, alpha, degree, aa, HH, gauss_indep_noise)
   #'@param aa controls grid density (a in the paper)
   #'@param HH numeric constant 
   #'@param gauss_indep_noise true if noise is Gaussian and independent
+  #'@noRd
   
   if (gauss_indep_noise)
   {
